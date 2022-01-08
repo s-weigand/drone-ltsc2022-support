@@ -1,0 +1,51 @@
+name: Publish container
+
+on:
+  workflow_dispatch:
+    inputs:
+      submodule:
+        type: choice
+        description: Submodule to build and push
+        options:
+          - drone-gitea-release
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.event.inputs.submodule }}
+
+jobs:
+  build:
+    runs-on: windows-2022
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+
+      - name: Build go code
+        run: |
+          cd ${{ github.event.inputs.submodule }}
+          go vet ./...
+          go build -v -o release/windows/amd64/drone-gitea-release.exe
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          file: ${{ github.event.inputs.submodule }}/docker/Dockerfile.windows.2022
+          context: .
+          push: true
+          tags: s-weigand/${{ github.event.inputs.submodule }}:ltsc2022
