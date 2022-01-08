@@ -1,3 +1,9 @@
 [submodule "drone-gitea-release"]
 	path = drone-gitea-release
 	url = https://github.com/s-weigand/drone-gitea-release.git
+[submodule "drone-runner-docker"]
+	path = drone-runner-docker
+	url = https://github.com/s-weigand/drone-runner-docker.git
+[submodule "drone-git"]
+	path = drone-git
+	url = https://github.com/s-weigand/drone-git.git
