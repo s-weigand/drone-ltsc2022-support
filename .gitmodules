@@ -1,0 +1,3 @@
+[submodule "drone-gitea-release"]
+	path = drone-gitea-release
+	url = https://github.com/s-weigand/drone-gitea-release.git
