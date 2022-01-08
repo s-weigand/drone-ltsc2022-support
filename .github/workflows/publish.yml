@@ -9,6 +9,8 @@ on:
         description: Submodule to build and push
         options:
           - drone-gitea-release
+          - drone-git
+          - drone-runner-docker
 
 jobs:
   build:
@@ -24,14 +26,36 @@ jobs:
         with:
           submodules: true
 
+      - name: Determine Project Build Variables
+        id: build_vars
+        shell: python
+        run: |
+          project = "${{ github.event.inputs.submodule }}"
+          if project == "drone-gitea-release":
+              go_build_object = "release/windows/amd64/drone-gitea-release.exe"
+              docker_file = f"{project}/docker/Dockerfile.windows.2022"
+          elif project == "drone-git":
+              go_build_object = "None"
+              docker_file = f"{project}/docker/Dockerfile.windows.2022"
+          elif project == "drone-runner-docker":
+              go_build_object = "release/windows/amd64/drone-runner-docker.exe"
+              docker_file = f"{project}/docker/Dockerfile.windows.amd64.2022"
+          else:
+              raise SystemExit(1)
+
+          print(f"::set-output name=go_build_object::{go_build_object}")
+          print(f"::set-output name=docker_file::{docker_file}")
+
       - name: Setup Go
+        if: ${{ steps.build_vars.outputs.go_build_object != 'None' }}
         uses: actions/setup-go@v2
 
       - name: Build go code
+        if: ${{ steps.build_vars.outputs.go_build_object != 'None' }}
         run: |
           cd ${{ github.event.inputs.submodule }}
           go vet ./...
-          go build -v -o release/windows/amd64/drone-gitea-release.exe
+          go build -v -o ${{ steps.build_vars.outputs.go_build_object }}
 
       - name: Build and push image
         uses: mr-smithers-excellent/docker-build-push@v5
@@ -39,7 +63,7 @@ jobs:
           image: ${{ github.event.inputs.submodule }}
           tags: ltsc2022
           registry: ghcr.io
-          dockerfile: ${{ github.event.inputs.submodule }}/docker/Dockerfile.windows.2022
+          dockerfile: ${{ steps.build_vars.outputs.docker_file }}
           directory: ${{ github.event.inputs.submodule }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
