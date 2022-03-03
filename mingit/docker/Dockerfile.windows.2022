@@ -1,6 +1,6 @@
 # escape=`
 
-FROM mcr.microsoft.com/windows/servercore:ltsc2022 AS builder
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
@@ -16,15 +16,9 @@ RUN `
   Invoke-WebRequest -Uri https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2.35.1.2-64-bit.tar.bz2 -OutFile tmp/file.tar.bz2; `
   Expand-7Zip tmp/file.tar.bz2 tmp; `
   Expand-7Zip tmp/file.tar git; `
-  ls git
-
-FROM mcr.microsoft.com/windows/servercore:ltsc2022
-
-COPY --from=builder c:/git c:/git
+  ls git; `
+  Remove-Item tmp -Recurse
 
 # https://github.com/PowerShell/PowerShell/issues/6211#issuecomment-367477137
 USER ContainerAdministrator
-RUN setx /M PATH "C:/git/cmd;C:/git/mingw64/bin;C:/git/usr/bin;%PATH%"
-USER ContainerUser
-
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+RUN setx /M PATH $(${Env:PATH} + ';C:/git/cmd;C:/git/mingw64/bin;C:/git/usr/bin;C:/git/mingw64/libexec/git-core')
