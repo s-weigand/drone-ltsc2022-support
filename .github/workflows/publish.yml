@@ -12,6 +12,7 @@ on:
           - drone-git
           - drone-runner-docker
           - drone-cache
+          - drone-s3
           - mingit
 
 jobs:
@@ -44,6 +45,9 @@ jobs:
               docker_file = f"{project}/docker/Dockerfile.windows.amd64.2022"
           elif project == "drone-cache":
               go_build_object = "None"
+              docker_file = f"{project}/docker/Dockerfile.windows.2022"
+          elif project == "drone-s3":
+              go_build_object = "release/windows/amd64/drone-s3.exe"
               docker_file = f"{project}/docker/Dockerfile.windows.2022"
           elif project == "mingit":
               go_build_object = "None"
