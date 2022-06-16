@@ -14,6 +14,7 @@ on:
           - drone-cache
           - drone-s3
           - mingit
+          - nodejs
 
 jobs:
   build:
@@ -50,6 +51,9 @@ jobs:
               go_build_object = "release/windows/amd64/drone-s3.exe"
               docker_file = f"{project}/docker/Dockerfile.windows.2022"
           elif project == "mingit":
+              go_build_object = "None"
+              docker_file = f"{project}/docker/Dockerfile.windows.2022"
+          elif project == "nodejs":
               go_build_object = "None"
               docker_file = f"{project}/docker/Dockerfile.windows.2022"
           else:
