@@ -27,6 +27,9 @@ RUN $url = ('https://nodejs.org/dist/v{0}/node-v{0}-win-x64.zip' -f $env:NODE_VE
 	Write-Host 'Removing ...'; \
 	Remove-Item node.zip -Force; \
 	\
+	Write-Host 'Updating npm ("npm install -g npm@8.12.2") ...'; \
+	npm install -g npm@8.12.2; \
+	\
 	Write-Host 'Verifying ("node --version") ...'; \
 	node --version; \
 	Write-Host 'Verifying ("npm --version") ...'; \
