@@ -8,6 +8,10 @@ RUN $newPath = ('C:\nodejs;{0}\Yarn\bin;{1}' -f $env:LOCALAPPDATA, $env:PATH); \
 	[Environment]::SetEnvironmentVariable('PATH', $newPath, [EnvironmentVariableTarget]::Machine)
 # doing this first to share cache across versions more aggressively
 
+ADD https://aka.ms/vs/17/release/vc_redist.x64.exe c:/temp/vcredist_x64.exe
+
+RUN Start-Process -filepath C:/temp/vcredist_x64.exe -ArgumentList "/install", "/passive", "/norestart", "'/log c:/temp/a.txt'" -PassThru | wait-process
+
 ENV NODE_VERSION 16.9.1
 ENV NODE_SHA256 44b36846f45c3599d4230008cc5064d3e72405eea26268731b2374fe4ab998ed
 
