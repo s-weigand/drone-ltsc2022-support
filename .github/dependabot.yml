@@ -1,0 +1,34 @@
+version: 2
+updates:
+  - package-ecosystem: docker
+    directory: "/mingit/docker"
+    schedule:
+      interval: weekly
+      day: friday
+      time: "18:00"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: docker
+    directory: "/nodejs/docker"
+    schedule:
+      interval: weekly
+      day: friday
+      time: "18:00"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: docker
+    directory: "/drone-cache/docker"
+    schedule:
+      interval: weekly
+      day: friday
+      time: "18:00"
+      timezone: Europe/Amsterdam
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: friday
+      time: "18:00"
+      timezone: Europe/Amsterdam
