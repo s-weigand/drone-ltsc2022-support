@@ -10,3 +10,6 @@
 [submodule "drone-s3"]
 	path = drone-s3
 	url = https://github.com/s-weigand/drone-s3.git
+[submodule "drone-s3-cache"]
+	path = drone-s3-cache
+	url = https://github.com/s-weigand/drone-s3-cache.git

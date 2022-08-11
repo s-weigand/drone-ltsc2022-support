@@ -13,6 +13,7 @@ on:
           - drone-runner-docker
           - drone-cache
           - drone-s3
+          - drone-s3-cache
           - mingit
           - nodejs
 
@@ -35,6 +36,8 @@ jobs:
         shell: python
         run: |
           project = "${{ github.event.inputs.submodule }}"
+          main_go_path = "."
+
           if project == "drone-gitea-release":
               go_build_object = "release/windows/amd64/drone-gitea-release.exe"
               docker_file = f"{project}/docker/Dockerfile.windows.2022"
@@ -50,6 +53,10 @@ jobs:
           elif project == "drone-s3":
               go_build_object = "release/windows/amd64/drone-s3.exe"
               docker_file = f"{project}/docker/Dockerfile.windows.2022"
+          elif project == "drone-s3-cache":
+              go_build_object = "release/windows/amd64/drone-s3-cache.exe"
+              docker_file = f"{project}/docker/Dockerfile.windows.2022"
+              main_go_path = "./cmd/drone-s3-cache"
           elif project == "mingit":
               go_build_object = "None"
               docker_file = f"{project}/docker/Dockerfile.windows.2022"
@@ -61,6 +68,7 @@ jobs:
 
           print(f"::set-output name=go_build_object::{go_build_object}")
           print(f"::set-output name=docker_file::{docker_file}")
+          print(f"::set-output name=main_go_path::{main_go_path}")
 
       - name: Setup Go
         if: ${{ steps.build_vars.outputs.go_build_object != 'None' }}
@@ -71,7 +79,7 @@ jobs:
         run: |
           cd ${{ github.event.inputs.submodule }}
           go vet ./...
-          go build -v -o ${{ steps.build_vars.outputs.go_build_object }}
+          go build -v -o ${{ steps.build_vars.outputs.go_build_object }} ${{ steps.build_vars.outputs.main_go_path }}
 
       - name: Build and push image
         uses: mr-smithers-excellent/docker-build-push@v5
