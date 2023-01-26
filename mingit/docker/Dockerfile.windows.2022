@@ -20,6 +20,6 @@ RUN setx /M PATH "%PATH%;C:/git/cmd;C:/git/mingw64/bin;C:/git/usr/bin"
 
 # Add Drone-CI workbench folder to safe directories to prevent error du to different user cloning
 # E.g. the drone-git plugin uses the ContainerAdministrator user
-RUN git config --global --add safe.directory C:/drone/src/
+RUN git config --global --add safe.directory *
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
