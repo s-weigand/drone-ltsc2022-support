@@ -82,7 +82,7 @@ jobs:
           go build -v -o ${{ steps.build_vars.outputs.go_build_object }} ${{ steps.build_vars.outputs.main_go_path }}
 
       - name: Build and push image
-        uses: mr-smithers-excellent/docker-build-push@v5
+        uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: ${{ github.event.inputs.submodule }}
           tags: ltsc2022
