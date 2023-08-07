@@ -40,7 +40,7 @@ jobs:
 
           if project == "drone-gitea-release":
               go_build_object = "release/windows/amd64/drone-gitea-release.exe"
-              docker_file = f"{project}/docker/Dockerfile.windows.2022"
+              docker_file = f"{project}/docker/Dockerfile.windows.ltsc2022"
           elif project == "drone-git":
               go_build_object = "None"
               docker_file = f"{project}/docker/Dockerfile.windows.2022"
