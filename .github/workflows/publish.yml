@@ -85,7 +85,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: ${{ github.event.inputs.submodule }}
-          tags: ltsc2022
+          tags: test
           registry: ghcr.io
           dockerfile: ${{ steps.build_vars.outputs.docker_file }}
           directory: ${{ github.event.inputs.submodule }}
