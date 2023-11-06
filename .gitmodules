@@ -13,3 +13,6 @@
 [submodule "drone-s3-cache"]
 	path = drone-s3-cache
 	url = https://github.com/s-weigand/drone-s3-cache.git
+[submodule "drone-cache"]
+	path = drone-cache
+	url = https://github.com/s-weigand/drone-cache.git
