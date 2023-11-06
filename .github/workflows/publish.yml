@@ -16,6 +16,11 @@ on:
           - drone-s3-cache
           - mingit
           - nodejs
+      tag-postfix:
+        required: false
+        type: string
+        default: ""
+        description: Image tag postfix for testing
 
 jobs:
   build:
@@ -85,7 +90,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: ${{ github.event.inputs.submodule }}
-          tags: ltsc2022
+          tags: ltsc2022${{ github.event.inputs.tag-postfix }}
           registry: ghcr.io
           dockerfile: ${{ steps.build_vars.outputs.docker_file }}
           directory: ${{ github.event.inputs.submodule }}
