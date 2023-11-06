@@ -48,7 +48,7 @@ jobs:
               go_build_object = "release/windows/amd64/drone-runner-docker.exe"
               docker_file = f"{project}/docker/Dockerfile.windows.amd64.2022"
           elif project == "drone-cache":
-              go_build_object = "None"
+              go_build_object = "release/windows/amd64/drone-cache.exe"
               docker_file = f"{project}/docker/Dockerfile.windows.2022"
           elif project == "drone-s3":
               go_build_object = "release/windows/amd64/drone-s3.exe"
