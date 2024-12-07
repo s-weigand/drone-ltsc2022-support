@@ -4,15 +4,15 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 RUN `
   mkdir tmp && mkdir git`
-  && curl -sSfLo tmp/file.zip https://github.com/git-for-windows/git/releases/download/v2.39.1.windows.1/MinGit-2.39.1-64-bit.zip `
+  && curl -sSfLo tmp/file.zip https://github.com/git-for-windows/git/releases/download/v2.47.1.windows.1/MinGit-2.47.1-64-bit.zip `
   && tar -C c:\git -oxzf tmp/file.zip`
   && rmdir /Q /S tmp
 
 RUN `
   mkdir tmp`
-  && curl -sSfLo tmp/file.zip https://github.com/git-lfs/git-lfs/releases/download/v3.3.0/git-lfs-windows-amd64-v3.3.0.zip `
+  && curl -sSfLo tmp/file.zip https://github.com/git-lfs/git-lfs/releases/download/v3.6.0/git-lfs-windows-amd64-v3.6.0.zip `
   && tar -C tmp -oxzf tmp/file.zip`
-  && robocopy tmp/git-lfs-3.3.0 c:\git\usr\bin /s /e || exit 0`
+  && robocopy tmp/git-lfs-3.6.0 c:\git\usr\bin /s /e || exit 0`
   && rmdir /Q /S tmp
 
 # Add git to PATH
