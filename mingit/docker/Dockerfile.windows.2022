@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 RUN `
   mkdir tmp && mkdir git`
-  && curl -sSfLo tmp/file.zip https://github.com/git-for-windows/git/releases/download/v2.47.1.windows.1/MinGit-2.47.1-64-bit.zip `
+  && curl -sSfLo tmp/file.zip https://github.com/git-for-windows/git/releases/download/v2.47.0.windows.2/MinGit-2.47.0.2-64-bit.zip `
   && tar -C c:\git -oxzf tmp/file.zip`
   && rmdir /Q /S tmp
 
@@ -17,6 +17,8 @@ RUN `
 
 # Add git to PATH
 RUN setx /M PATH "%PATH%;C:/git/cmd;C:/git/mingw64/bin;C:/git/usr/bin"
+
+RUN git config --global init.defaultBranch main
 
 # Add Drone-CI workbench folder to safe directories to prevent error du to different user cloning
 # E.g. the drone-git plugin uses the ContainerAdministrator user
