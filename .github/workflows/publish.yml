@@ -77,7 +77,7 @@ jobs:
 
       - name: Setup Go
         if: ${{ steps.build_vars.outputs.go_build_object != 'None' }}
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
 
       - name: Build go code
         if: ${{ steps.build_vars.outputs.go_build_object != 'None' }}
